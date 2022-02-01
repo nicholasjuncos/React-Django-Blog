@@ -29,6 +29,7 @@ import theme from "assets/theme";
 
 // Material Kit 2 PRO React routes
 import routes from "new_routes";
+import Presentation from "./routes/home/index";
 import PrivateRoute from "./common/HOCs/PrivateRoute";
 
 export default function App() {
@@ -47,7 +48,7 @@ export default function App() {
       }
 
       if (route.route) {
-        if (route.auth_required) {
+        if (route.authRequired) {
           return (
             <PrivateRoute exact path={route.route} element={route.component} key={route.key} />
           );
@@ -63,6 +64,7 @@ export default function App() {
       <CssBaseline />
       <Routes>
         {getRoutes(routes)}
+        <Route path="/" exact element={<Presentation />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </ThemeProvider>

@@ -50,11 +50,13 @@ const routes = [
         name: "sign in",
         route: "/login",
         component: <LoginContainer />,
+        notAuthRequired: true,
       },
       {
         name: "sign up",
         route: "/signup",
         component: <SignUpContainer />,
+        notAuthRequired: true,
       },
     ],
   },

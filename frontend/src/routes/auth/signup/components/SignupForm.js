@@ -82,7 +82,7 @@ function SignupForm() {
 
   return (
     <BasicLayout image={bgImage}>
-      {errorMessage ? <MKAlert variant="danger">{errorMessage}</MKAlert> : null}
+      {errorMessage ? <MKAlert color="error">{errorMessage}</MKAlert> : null}
       <Card>
         <MKBox
           variant="gradient"

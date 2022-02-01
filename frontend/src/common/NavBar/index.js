@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 /**
 =========================================================
 * Material Kit 2 PRO React - v2.0.0
@@ -56,7 +56,7 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
   const [mobileView, setMobileView] = useState(false);
 
   // REACT ROUTER DOM
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   // REDUX
   const dispatch = useDispatch();
@@ -71,7 +71,7 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
     localStorage.clear();
     dispatch({ type: "LOG_OUT" });
     // dispatch({ type: "RESET_SEARCH_STATE" });
-    history.replace("/login");
+    navigate("/login", { replace: true });
   };
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);
@@ -160,36 +160,44 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
                     >
                       {col.name}
                     </MKTypography>
-                    {col.collapse.map((item) => (
-                      <MKTypography
-                        key={item.name}
-                        component={item.route ? Link : MuiLink}
-                        to={item.route ? item.route : ""}
-                        href={item.href ? item.href : (e) => e.preventDefault()}
-                        target={item.href ? "_blank" : ""}
-                        rel={item.href ? "noreferrer" : "noreferrer"}
-                        minWidth="11.25rem"
-                        display="block"
-                        variant="button"
-                        color="text"
-                        textTransform="capitalize"
-                        fontWeight="regular"
-                        py={0.625}
-                        px={2}
-                        sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
-                          borderRadius: borderRadius.md,
-                          cursor: "pointer",
-                          transition: "all 300ms linear",
+                    {col.collapse
+                      .filter(
+                        (item) =>
+                          !(
+                            (authenticated && item.notAuthRequired) ||
+                            (!authenticated && item.authRequired)
+                          )
+                      )
+                      .map((item) => (
+                        <MKTypography
+                          key={item.name}
+                          component={item.route ? Link : MuiLink}
+                          to={item.route ? item.route : ""}
+                          href={item.href ? item.href : (e) => e.preventDefault()}
+                          target={item.href ? "_blank" : ""}
+                          rel={item.href ? "noreferrer" : "noreferrer"}
+                          minWidth="11.25rem"
+                          display="block"
+                          variant="button"
+                          color="text"
+                          textTransform="capitalize"
+                          fontWeight="regular"
+                          py={0.625}
+                          px={2}
+                          sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+                            borderRadius: borderRadius.md,
+                            cursor: "pointer",
+                            transition: "all 300ms linear",
 
-                          "&:hover": {
-                            backgroundColor: grey[200],
-                            color: dark.main,
-                          },
-                        })}
-                      >
-                        {item.name}
-                      </MKTypography>
-                    ))}
+                            "&:hover": {
+                              backgroundColor: grey[200],
+                              color: dark.main,
+                            },
+                          })}
+                        >
+                          {item.name}
+                        </MKTypography>
+                      ))}
                   </Fragment>
                 ))}
                 {key !== 0 && (
@@ -213,87 +221,91 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
 
       // Render the dropdown menu that should be display as list items
     } else if (collapse && name === dropdownName) {
-      template = collapse.map((item) => {
-        const linkComponent = {
-          component: MuiLink,
-          href: item.href,
-          target: "_blank",
-          rel: "noreferrer",
-        };
+      template = collapse
+        .filter(
+          (item) => (!authenticated && item.notAuthRequired) || (authenticated && item.authRequired)
+        )
+        .map((item) => {
+          const linkComponent = {
+            component: MuiLink,
+            href: item.href,
+            target: "_blank",
+            rel: "noreferrer",
+          };
 
-        const routeComponent = {
-          component: Link,
-          to: item.route,
-        };
+          const routeComponent = {
+            component: Link,
+            to: item.route,
+          };
 
-        return (
-          <MKTypography
-            key={item.name}
-            {...(item.route ? routeComponent : linkComponent)}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            variant="button"
-            textTransform="capitalize"
-            minWidth={item.description ? "14rem" : "12rem"}
-            color={item.description ? "dark" : "text"}
-            fontWeight={item.description ? "bold" : "regular"}
-            py={item.description ? 1 : 0.625}
-            px={2}
-            sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
-              borderRadius: borderRadius.md,
-              cursor: "pointer",
-              transition: "all 300ms linear",
+          return (
+            <MKTypography
+              key={item.name}
+              {...(item.route ? routeComponent : linkComponent)}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              variant="button"
+              textTransform="capitalize"
+              minWidth={item.description ? "14rem" : "12rem"}
+              color={item.description ? "dark" : "text"}
+              fontWeight={item.description ? "bold" : "regular"}
+              py={item.description ? 1 : 0.625}
+              px={2}
+              sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+                borderRadius: borderRadius.md,
+                cursor: "pointer",
+                transition: "all 300ms linear",
 
-              "&:hover": {
-                backgroundColor: grey[200],
-                color: dark.main,
-
-                "& *": {
+                "&:hover": {
+                  backgroundColor: grey[200],
                   color: dark.main,
+
+                  "& *": {
+                    color: dark.main,
+                  },
                 },
-              },
-            })}
-            onMouseEnter={({ currentTarget }) => {
-              if (item.dropdown) {
-                setNestedDropdown(currentTarget);
-                setNestedDropdownEl(currentTarget);
-                setNestedDropdownName(item.name);
-              }
-            }}
-            onMouseLeave={() => {
-              if (item.dropdown) {
-                setNestedDropdown(null);
-              }
-            }}
-          >
-            {item.description ? (
-              <MKBox>
-                {item.name}
-                <MKTypography
-                  display="block"
-                  variant="button"
-                  color="text"
-                  fontWeight="regular"
-                  sx={{ transition: "all 300ms linear" }}
+              })}
+              onMouseEnter={({ currentTarget }) => {
+                if (item.dropdown) {
+                  setNestedDropdown(currentTarget);
+                  setNestedDropdownEl(currentTarget);
+                  setNestedDropdownName(item.name);
+                }
+              }}
+              onMouseLeave={() => {
+                if (item.dropdown) {
+                  setNestedDropdown(null);
+                }
+              }}
+            >
+              {item.description ? (
+                <MKBox>
+                  {item.name}
+                  <MKTypography
+                    display="block"
+                    variant="button"
+                    color="text"
+                    fontWeight="regular"
+                    sx={{ transition: "all 300ms linear" }}
+                  >
+                    {item.description}
+                  </MKTypography>
+                </MKBox>
+              ) : (
+                item.name
+              )}
+              {item.collapse && (
+                <Icon
+                  fontSize="small"
+                  sx={{ fontWeight: "normal", verticalAlign: "middle", mr: -0.5 }}
                 >
-                  {item.description}
-                </MKTypography>
-              </MKBox>
-            ) : (
-              item.name
-            )}
-            {item.collapse && (
-              <Icon
-                fontSize="small"
-                sx={{ fontWeight: "normal", verticalAlign: "middle", mr: -0.5 }}
-              >
-                keyboard_arrow_right
-              </Icon>
-            )}
-          </MKTypography>
-        );
-      });
+                  keyboard_arrow_right
+                </Icon>
+              )}
+            </MKTypography>
+          );
+        });
     }
 
     return template;
@@ -351,85 +363,90 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
   // Render routes that are nested inside the dropdown menu routes
   const renderNestedRoutes = routes.map(({ collapse, columns }) =>
     collapse && !columns
-      ? collapse.map(({ name: parentName, collapse: nestedCollapse }) => {
-          let template;
+      ? collapse
+          .filter(
+            (item) =>
+              !((authenticated && item.notAuthRequired) || (!authenticated && item.authRequired))
+          )
+          .map(({ name: parentName, collapse: nestedCollapse }) => {
+            let template;
 
-          if (parentName === nestedDropdownName) {
-            template =
-              nestedCollapse &&
-              nestedCollapse.map((item) => {
-                const linkComponent = {
-                  component: MuiLink,
-                  href: item.href,
-                  target: "_blank",
-                  rel: "noreferrer",
-                };
+            if (parentName === nestedDropdownName) {
+              template =
+                nestedCollapse &&
+                nestedCollapse.map((item) => {
+                  const linkComponent = {
+                    component: MuiLink,
+                    href: item.href,
+                    target: "_blank",
+                    rel: "noreferrer",
+                  };
 
-                const routeComponent = {
-                  component: Link,
-                  to: item.route,
-                };
+                  const routeComponent = {
+                    component: Link,
+                    to: item.route,
+                  };
 
-                return (
-                  <MKTypography
-                    key={item.name}
-                    {...(item.route ? routeComponent : linkComponent)}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    variant="button"
-                    textTransform="capitalize"
-                    minWidth={item.description ? "14rem" : "12rem"}
-                    color={item.description ? "dark" : "text"}
-                    fontWeight={item.description ? "bold" : "regular"}
-                    py={item.description ? 1 : 0.625}
-                    px={2}
-                    sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
-                      borderRadius: borderRadius.md,
-                      cursor: "pointer",
-                      transition: "all 300ms linear",
+                  return (
+                    <MKTypography
+                      key={item.name}
+                      {...(item.route ? routeComponent : linkComponent)}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      variant="button"
+                      textTransform="capitalize"
+                      minWidth={item.description ? "14rem" : "12rem"}
+                      color={item.description ? "dark" : "text"}
+                      fontWeight={item.description ? "bold" : "regular"}
+                      py={item.description ? 1 : 0.625}
+                      px={2}
+                      sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+                        borderRadius: borderRadius.md,
+                        cursor: "pointer",
+                        transition: "all 300ms linear",
 
-                      "&:hover": {
-                        backgroundColor: grey[200],
-                        color: dark.main,
-
-                        "& *": {
+                        "&:hover": {
+                          backgroundColor: grey[200],
                           color: dark.main,
-                        },
-                      },
-                    })}
-                  >
-                    {item.description ? (
-                      <MKBox>
-                        {item.name}
-                        <MKTypography
-                          display="block"
-                          variant="button"
-                          color="text"
-                          fontWeight="regular"
-                          sx={{ transition: "all 300ms linear" }}
-                        >
-                          {item.description}
-                        </MKTypography>
-                      </MKBox>
-                    ) : (
-                      item.name
-                    )}
-                    {item.collapse && (
-                      <Icon
-                        fontSize="small"
-                        sx={{ fontWeight: "normal", verticalAlign: "middle", mr: -0.5 }}
-                      >
-                        keyboard_arrow_right
-                      </Icon>
-                    )}
-                  </MKTypography>
-                );
-              });
-          }
 
-          return template;
-        })
+                          "& *": {
+                            color: dark.main,
+                          },
+                        },
+                      })}
+                    >
+                      {item.description ? (
+                        <MKBox>
+                          {item.name}
+                          <MKTypography
+                            display="block"
+                            variant="button"
+                            color="text"
+                            fontWeight="regular"
+                            sx={{ transition: "all 300ms linear" }}
+                          >
+                            {item.description}
+                          </MKTypography>
+                        </MKBox>
+                      ) : (
+                        item.name
+                      )}
+                      {item.collapse && (
+                        <Icon
+                          fontSize="small"
+                          sx={{ fontWeight: "normal", verticalAlign: "middle", mr: -0.5 }}
+                        >
+                          keyboard_arrow_right
+                        </Icon>
+                      )}
+                    </MKTypography>
+                  );
+                });
+            }
+
+            return template;
+          })
       : null
   );
 
@@ -508,6 +525,11 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
           >
             {renderNavbarItems}
           </MKBox>
+          {authenticated ? (
+            <MKButton variant="button" fontWeight="bold" color={light ? "white" : "dark"} onClick={handleLogout}>
+              Logout
+            </MKButton>
+          ) : null }
           <MKBox ml={{ xs: "auto", lg: 0 }}>
             {action &&
               (action.type === "internal" ? (

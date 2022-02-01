@@ -22,11 +22,6 @@ export function loginReducer(state = initialState, action) {
         ...state,
         checkAuthentication: true,
       };
-    case "CHECKING_AUTHENTICATION_SUCCESS":
-      return {
-        ...state,
-        checkAuthentication: false,
-      };
     case "AUTHENTICATED":
       return {
         ...state,
@@ -75,16 +70,9 @@ export const signup = (credentials, navigate) => (dispatch) => {
     })
     .then((response) => {
       const { token } = response.data.access_token;
-      const { refreshToken } = response.data.refreshToken;
       localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
       dispatch({ type: "AUTHENTICATED", payload: response.data.user });
       navigate(-1, { replace: true });
-      // if (history.location.state) {
-      //   history.replace(history.location.state.from.pathname);
-      // } else {
-      //   history.replace("/");
-      // }
     })
     .catch((error) => {
       let errorMessage = "";
@@ -124,10 +112,8 @@ export const authenticate = (credentials, navigate) => (dispatch) => {
       password: credentials.password,
     })
     .then((response) => {
-      const { token } = response.data.access_token;
-      const { refreshToken } = response.data.refreshToken;
+      const token = response.data.access_token;
       localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
       dispatch({ type: "AUTHENTICATED", payload: response.data.user });
       navigate(-1, { replace: true });
       // if (history.location.state) {
@@ -160,12 +146,11 @@ export const resetAllStates = () => (dispatch) => {
 export const checkAuthentication = (navigate) => (dispatch) => {
   dispatch({ type: "CHECKING_AUTHENTICATION" });
   const token = localStorage.getItem("token");
-  const refreshToken = localStorage.getItem("refreshToken");
   axios
     .post(
-      `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/refresh/`,
+      `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/verify/`,
       {
-        refresh_token: refreshToken,
+        token,
       },
       {
         headers: {
@@ -173,9 +158,23 @@ export const checkAuthentication = (navigate) => (dispatch) => {
         },
       }
     )
-    .then((response) => {
-      console.log(`Data: ${response.data}`);
-      dispatch({ type: "CHECKING_AUTHENTICATION_SUCCESS" });
+    .then(() => {
+      axios
+        .get(`${process.env.REACT_APP_DJANGO_BACKEND}api/auth/user/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          dispatch({ type: "AUTHENTICATED", payload: response.data });
+        })
+        .catch((error) => {
+          console.log(error, error.response);
+          dispatch({ type: "AUTHENTICATION_FAILED" });
+          dispatch(resetAllStates());
+          localStorage.clear();
+          navigate("/login", { replace: true });
+        });
     })
     .catch((error) => {
       console.log(error, error.response);

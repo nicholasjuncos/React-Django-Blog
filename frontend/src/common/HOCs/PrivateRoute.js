@@ -15,7 +15,7 @@ function PrivateRoute({ component: Component, title, ...rest }) {
 
   // REACT ROUTER DOM
   const { pathname } = useLocation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // REDUX
   const dispatch = useDispatch();
@@ -23,22 +23,37 @@ function PrivateRoute({ component: Component, title, ...rest }) {
 
   const checkAuthentication = () => {
     const token = localStorage.getItem("token");
-    const refreshToken = localStorage.getItem("refreshToken");
     setLoading(true);
     axios
       .post(
-        `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/refresh/`,
-        { refresh_token: refreshToken },
+        `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/verify/`,
+        { token },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       )
-      .then((response) => {
-        console.log(`Data: ${response.data}`);
-        dispatch({ type: "CHECKING_AUTHENTICATION_SUCCESS" });
-        setLoading(false);
+      .then(() => {
+        axios
+          .get(`${process.env.REACT_APP_DJANGO_BACKEND}api/auth/user/`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            dispatch({ type: "AUTHENTICATED", payload: response.data });
+            setLoading(false);
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error, error.response);
+            dispatch({ type: "AUTHENTICATION_FAILED" });
+            dispatch(resetAllStates());
+            setLoading(false);
+            setRedirect(true);
+            localStorage.clear();
+          });
       })
       .catch((error) => {
         console.log(error, error.response);

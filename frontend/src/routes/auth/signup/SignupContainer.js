@@ -22,12 +22,11 @@ function SignupContainer() {
   // eslint-disable-next-line no-shadow,no-unused-vars
   const checkAuthentication = () => {
     const token = localStorage.getItem("token");
-    const refreshToken = localStorage.getItem("refreshToken");
     axios
       .post(
-        `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/refresh/`,
+        `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/verify/`,
         {
-          refresh_token: refreshToken,
+          token,
         },
         {
           headers: {
@@ -35,11 +34,26 @@ function SignupContainer() {
           },
         }
       )
-      .then((response) => {
-        console.log(`Data: ${response.data}`);
-        dispatch({ type: "CHECKING_AUTHENTICATION_SUCCESS" });
-        setLoading(false);
-        navigate(-1, { replace: true });
+      .then(() => {
+        axios
+          .get(`${process.env.REACT_APP_DJANGO_BACKEND}api/auth/user/`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            dispatch({ type: "AUTHENTICATED", payload: response.data });
+            setLoading(false);
+            navigate("/", { replace: true });
+          })
+          .catch((error) => {
+            console.log(error, error.response);
+            dispatch({ type: "AUTHENTICATION_FAILED" });
+            // dispatch({ type: "RESET_SEARCH_STATE" });
+            setLoading(false);
+            localStorage.clear();
+            navigate("/signup", { replace: true });
+          });
       })
       .catch((error) => {
         console.log(error, error.response);
