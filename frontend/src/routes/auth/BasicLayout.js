@@ -22,8 +22,8 @@ import Grid from "@mui/material/Grid";
 // Material Kit 2 PRO React components
 import MKBox from "components/MKComponents/MKBox";
 
-// Material Kit 2 PRO React example components
-import DefaultNavbar from "common/NavBar/index";
+// Project Navbar & Footer
+import DefaultNavbar from "common/Navbar/index";
 import SimpleFooter from "common/Footer/index";
 
 // Material kit 2 PRO React page layout routes

@@ -1,4 +1,5 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
@@ -18,6 +19,9 @@ class User(AbstractUser):
         },
     )
     email = CIEmailField(_('email address'), unique=True)
+    profile_photo = models.ImageField(upload_to='user/profile/', blank=True, null=True)
+    cover_photo = models.ImageField(upload_to='user/cover/', blank=True, null=True)
+    bio = models.TextField(max_length=200, blank=True)
     REQUIRED_FIELDS = ['email']
 
     class Meta:

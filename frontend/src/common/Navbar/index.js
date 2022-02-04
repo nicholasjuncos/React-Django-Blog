@@ -1,26 +1,17 @@
-/* eslint-disable */
-/**
-=========================================================
-* Material Kit 2 PRO React - v2.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
+// react components
 import { Fragment, useState, useEffect } from "react";
+
+// react-redux components
+import { useDispatch, useSelector } from "react-redux";
 
 // react-router components
 import { Link, useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
+
+// Material Kit 2 PRO React base styles
+import breakpoints from "assets/theme/base/breakpoints";
 
 // @mui material components
 import Container from "@mui/material/Container";
@@ -36,13 +27,9 @@ import MKBox from "components/MKComponents/MKBox";
 import MKTypography from "components/MKComponents/MKTypography";
 import MKButton from "components/MKComponents/MKButton";
 
-// Material Kit 2 PRO React examples
-import DefaultNavbarDropdown from "examples/Navbars/DefaultNavbar/DefaultNavbarDropdown";
-import DefaultNavbarMobile from "examples/Navbars/DefaultNavbar/DefaultNavbarMobile";
-
-// Material Kit 2 PRO React base styles
-import breakpoints from "assets/theme/base/breakpoints";
-import { useDispatch, useSelector } from "react-redux";
+// Navbar Components
+import DefaultNavbarDropdown from "./components/DefaultNavbarDropdown";
+import DefaultNavbarMobile from "./components/DefaultNavbarMobile";
 
 function DefaultNavbar({ brand, routes, transparent, light, action, sticky, relative, center }) {
   const [dropdown, setDropdown] = useState("");
@@ -131,6 +118,7 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
         const chunkIndex = Math.floor(index / rowsPerColumn);
 
         if (!resultArray[chunkIndex]) {
+          // eslint-disable-next-line no-param-reassign
           resultArray[chunkIndex] = [];
         }
 
@@ -525,11 +513,16 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
           >
             {renderNavbarItems}
           </MKBox>
-          {authenticated ? (
-            <MKButton variant="button" fontWeight="bold" color={light ? "white" : "dark"} onClick={handleLogout}>
+          {authenticated && mobileView === false ? (
+            <MKButton
+              variant="text"
+              fontWeight="bold"
+              color={light ? "white" : "dark"}
+              onClick={handleLogout}
+            >
               Logout
             </MKButton>
-          ) : null }
+          ) : null}
           <MKBox ml={{ xs: "auto", lg: 0 }}>
             {action &&
               (action.type === "internal" ? (

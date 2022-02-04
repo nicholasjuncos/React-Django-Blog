@@ -40,6 +40,7 @@ Coded by www.creative-tim.com
 import Icon from "@mui/material/Icon";
 import LoginContainer from "./routes/auth/login/LoginContainer";
 import SignUpContainer from "./routes/auth/signup/SignupContainer";
+import MyProfileContainer from "./routes/profile/MyProfileContainer";
 
 const routes = [
   {
@@ -57,6 +58,12 @@ const routes = [
         route: "/signup",
         component: <SignUpContainer />,
         notAuthRequired: true,
+      },
+      {
+        name: "my profile",
+        route: "/my-profile",
+        component: <MyProfileContainer />,
+        authRequired: true,
       },
     ],
   },

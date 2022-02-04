@@ -1,8 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import axios from "axios";
+import { useSelector } from "react-redux";
 // eslint-disable-next-line import/no-cycle
 import SignupForm from "./components/SignupForm";
 
@@ -17,59 +16,11 @@ function SignupContainer() {
   const navigate = useNavigate();
 
   // REDUX
-  const dispatch = useDispatch();
-
-  // eslint-disable-next-line no-shadow,no-unused-vars
-  const checkAuthentication = () => {
-    const token = localStorage.getItem("token");
-    axios
-      .post(
-        `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/token/verify/`,
-        {
-          token,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(() => {
-        axios
-          .get(`${process.env.REACT_APP_DJANGO_BACKEND}api/auth/user/`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((response) => {
-            dispatch({ type: "AUTHENTICATED", payload: response.data });
-            setLoading(false);
-            navigate("/", { replace: true });
-          })
-          .catch((error) => {
-            console.log(error, error.response);
-            dispatch({ type: "AUTHENTICATION_FAILED" });
-            // dispatch({ type: "RESET_SEARCH_STATE" });
-            setLoading(false);
-            localStorage.clear();
-            navigate("/signup", { replace: true });
-          });
-      })
-      .catch((error) => {
-        console.log(error, error.response);
-        dispatch({ type: "AUTHENTICATION_FAILED" });
-        // dispatch({ type: "RESET_SEARCH_STATE" });
-        setLoading(false);
-        localStorage.clear();
-        navigate("/signup", { replace: true });
-      });
-  };
+  const authenticated = useSelector((state) => state.loginReducer.authenticated);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      checkAuthentication();
-    } else {
-      setLoading(false);
+    if (authenticated) {
+      navigate("/", { replace: true });
     }
   }, [pathname]);
 

@@ -1,18 +1,3 @@
-/*
-=========================================================
-* Material Kit 2 PRO React - v2.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-pro-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -25,7 +10,7 @@ import MKTypography from "components/MKComponents/MKTypography";
 import MKSocialButton from "components/MKComponents/MKSocialButton";
 
 // Common Components such as navbar and footer
-import DefaultNavbar from "common/NavBar/index";
+import DefaultNavbar from "common/Navbar/index";
 import SimpleFooter from "common/Footer/index";
 
 // Material Kit 2 PRO React examples
@@ -39,7 +24,7 @@ import routes from "new_routes";
 // Images
 import bgImage from "assets/images/bg-presentation.jpg";
 
-function Presentation() {
+function Home() {
   return (
     <>
       <DefaultNavbar routes={routes} sticky />
@@ -198,4 +183,4 @@ function Presentation() {
   );
 }
 
-export default Presentation;
+export default Home;
