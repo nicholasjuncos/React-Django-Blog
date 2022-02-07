@@ -13,7 +13,7 @@ import MKBox from "components/MKComponents/MKBox";
 import MKTypography from "components/MKComponents/MKTypography";
 import MKAvatar from "components/MKComponents/MKAvatar";
 
-function BlogCard({ image, category, title, description, author, raised, action }) {
+function ArticleCard({ image, category, title, description, author, raised, action }) {
   const imageTemplate = (
     <>
       <MKBox
@@ -60,7 +60,7 @@ function BlogCard({ image, category, title, description, author, raised, action 
         )}
       </MKBox>
       <MKBox p={3}>
-        {category && (
+        {category && category.showLabel && (
           <MKTypography
             variant="caption"
             color={category.color}
@@ -100,37 +100,39 @@ function BlogCard({ image, category, title, description, author, raised, action 
           {description}
         </MKTypography>
         {author && (
-          <MKBox display="flex" alignItems="center" mt={3}>
-            <MKAvatar
-              src={author.image}
-              alt={author.name}
-              shadow="md"
-              variant={raised ? "circular" : "rounded"}
-            />
-            <MKBox pl={2} lineHeight={0}>
-              <MKTypography component="h6" variant="button" fontWeight="medium" gutterBottom>
-                {author.name}
-              </MKTypography>
-              <MKTypography variant="caption" color="text">
-                {author.date}
-              </MKTypography>
+          <Link to={`/blog/authors/${author.name}`}>
+            <MKBox display="flex" alignItems="center" mt={3}>
+              <MKAvatar
+                src={author.image}
+                alt={author.name}
+                shadow="md"
+                variant={raised ? "circular" : "rounded"}
+              />
+              <MKBox pl={2} lineHeight={0}>
+                <MKTypography component="h6" variant="button" fontWeight="medium" gutterBottom>
+                  {author.name}
+                </MKTypography>
+                <MKTypography variant="caption" color="text">
+                  {author.date}
+                </MKTypography>
+              </MKBox>
             </MKBox>
-          </MKBox>
+          </Link>
         )}
       </MKBox>
     </Card>
   );
 }
 
-// Setting default props for the BlogCard
-BlogCard.defaultProps = {
+// Setting default props for the ArticleCard
+ArticleCard.defaultProps = {
   category: false,
   author: false,
   raised: true,
 };
 
-// Typechecking props for the BlogCard
-BlogCard.propTypes = {
+// Typechecking props for the ArticleCard
+ArticleCard.propTypes = {
   image: PropTypes.string.isRequired,
   category: PropTypes.oneOfType([
     PropTypes.shape({
@@ -164,4 +166,4 @@ BlogCard.propTypes = {
   }).isRequired,
 };
 
-export default BlogCard;
+export default ArticleCard;

@@ -52,7 +52,9 @@ function PrivateRoute({ children }) {
   };
 
   useEffect(() => {
-    checkAuthentication();
+    if (!authenticated) {
+      checkAuthentication();
+    }
   }, [pathname]);
 
   return authenticated ? children : <Navigate to="/" />;

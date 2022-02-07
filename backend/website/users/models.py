@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
@@ -35,6 +36,17 @@ class User(AbstractUser):
         #     return self.first_name + " " + self.last_name
         # else:
         #     return "Anonymous User"
+
+    @property
+    def display_name(self):
+        if self.full_name:
+            return self.full_name
+        return self.username
+
+    @property
+    def last_three_articles(self):
+        today = datetime.date.today()
+        return self.post_set.filter(status="P", post_date__lte=today).order_by("-post_date")[:3]
 
     @property
     def full_name(self):

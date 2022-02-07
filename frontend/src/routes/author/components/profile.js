@@ -18,8 +18,6 @@ import defaultPicture from "assets/images/default-profile-pic.jpeg";
 
 function Profile({ user }) {
   let profilePicture = defaultPicture;
-  console.log("HELLO!");
-  console.log(user);
   if (user) {
     if (user.profile_photo) {
       profilePicture = user.profile_photo;

@@ -91,6 +91,8 @@ function ProfileForm({ oldFirstName, oldLastName, oldBio }) {
               label="My Bio"
               type="text"
               fullWidth
+              multiline
+              rows={5}
               onChange={(e) => setBio(e.target.value)}
             />
           </MKBox>

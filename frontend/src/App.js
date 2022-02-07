@@ -14,12 +14,14 @@ import theme from "assets/theme";
 
 // Material Kit 2 PRO React routes
 import routes from "new_routes";
+
 // Authenticated Route Component
 import PrivateRoute from "./common/HOCs/PrivateRoute";
 
 // Individual components for some routes
 import Home from "./routes/home/index";
 import AuthorContainer from "./routes/author/AuthorContainer";
+import ArticleEditContainer from "./routes/blog/article/ArticleEditContainer";
 
 // Login reducer resetAllStates
 import { resetAllStates } from "./routes/auth/login/reducers/loginReducer";
@@ -118,7 +120,16 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="/" exact element={<Home />} />
-        <Route path="/authors/:username" exact element={<AuthorContainer />} />
+        <Route path="/blog/authors/:username" exact element={<AuthorContainer />} />
+        <Route
+          path="/blog/edit-post/:blogPostID"
+          exact
+          element={
+            <PrivateRoute>
+              <ArticleEditContainer />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </ThemeProvider>

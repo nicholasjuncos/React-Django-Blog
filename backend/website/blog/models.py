@@ -1,0 +1,99 @@
+import datetime
+from django.db import models
+from django.contrib.auth import get_user_model
+from model_utils.models import TimeStampedModel, StatusModel
+from model_utils import Choices
+
+User = get_user_model()
+
+
+# class Tag(models.Model):
+#     name = models.CharField(max_length=50)
+#
+#     def __str__(self):
+#         return self.name
+
+
+class Post(TimeStampedModel, StatusModel):
+    STATUS = Choices(
+        ('D', 'draft'),
+        ('P', 'published')
+    )
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUS, default='D', max_length=1)
+    post_date = models.DateField()
+    title = models.CharField(max_length=100)
+    title_sub_text = models.CharField(max_length=200, blank=True)
+    subtitle1 = models.CharField(max_length=50)
+    text1 = models.TextField()
+    subtitle2 = models.CharField(max_length=50, blank=True)
+    text2 = models.TextField(blank=True)
+    cover_image = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+    image1 = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+    image2 = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+    image3 = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+
+    # @property
+    # def like_count(self):
+    #     return self.like_set.all().count()
+
+    @property
+    def description(self):
+        return str(self.text1) + str(self.text2)
+
+    @property
+    def active(self):
+        if self.status == 'P' and datetime.date.today() <= self.post_date:
+            return True
+        else:
+            return False
+
+    @property
+    def is_published(self):
+        if self.status == 'P':
+            return True
+        return False
+
+    @property
+    def in_future(self):
+        return self.post_date > datetime.date.today()
+
+    def __str__(self):
+        return self.title + ", " + str(self.post_date)
+
+
+# class Comment(TimeStampedModel):
+#     article = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     comment = models.CharField(max_length=1000)
+
+
+# class Reply(TimeStampedModel):
+#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     reply = models.CharField(max_length=1000)
+
+
+# class Report(TimeStampedModel):
+#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     reply = models.ForeignKey(Reply, on_delete=models.CASCADE, null=True, blank=True)
+
+
+# class Like(models.Model):
+#     article = models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     comment = models.ForeignKey(Comment, null=True, on_delete=models.CASCADE)
+#     reply = models.ForeignKey(Reply, null=True, on_delete=models.CASCADE)
+#     created = models.DateTimeField()
+#
+#     def save(self, *args, **kwargs):
+#         if not self.id:
+#             self.created = datetime.datetime.now()
+#         return super(Like, self).save(*args, **kwargs)
+#
+#
+# class Follow(models.Model):
+#     user_follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
+#     author_followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name="authors_following")
+#     created = models.DateTimeField(auto_now_add=True)

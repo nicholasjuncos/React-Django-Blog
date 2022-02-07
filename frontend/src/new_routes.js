@@ -41,6 +41,8 @@ import Icon from "@mui/material/Icon";
 import LoginContainer from "./routes/auth/login/LoginContainer";
 import SignUpContainer from "./routes/auth/signup/SignupContainer";
 import MyProfileContainer from "./routes/profile/MyProfileContainer";
+import ArticleCreateContainer from "./routes/blog/article/ArticleCreateContainer";
+import ArticleListContainer from "./routes/blog/article/ArticleListContainer";
 
 const routes = [
   {
@@ -60,9 +62,21 @@ const routes = [
         notAuthRequired: true,
       },
       {
-        name: "my profile",
-        route: "/my-profile",
+        name: "edit profile",
+        route: "/edit-profile",
         component: <MyProfileContainer />,
+        authRequired: true,
+      },
+      {
+        name: "create post",
+        route: "/blog/create-post",
+        component: <ArticleCreateContainer />,
+        authRequired: true,
+      },
+      {
+        name: "my posts",
+        route: "/blog/my-posts",
+        component: <ArticleListContainer />,
         authRequired: true,
       },
     ],

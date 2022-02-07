@@ -64,7 +64,8 @@ EXTERNAL_APPS = [
 # Apps created within the project
 LOCAL_APPS = [
     'website.common',
-    'website.users'
+    'website.users',
+    'website.blog'
 ]
 
 # All Apps together
