@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // React-router-dom components
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // proptypes to define variables
 import PropTypes from "prop-types";
@@ -22,7 +22,7 @@ import MKAlert from "components/MKComponents/MKAlert";
 import MKDatePicker from "components/MKComponents/MKDatePicker";
 
 // Blog reducers
-import { setBlogPost } from "../../reducers/blogReducers";
+import { setBlogPost, deleteBlogPost } from "../../reducers/blogReducers";
 
 function ArticleForm({
   blogID,
@@ -54,6 +54,11 @@ function ArticleForm({
   const user = useSelector((state) => state.loginReducer.user);
   const errorMessage = useSelector((state) => state.blogReducer.errorMessage);
   const loading = useSelector((state) => state.blogReducer.loading);
+
+  // handle delete
+  const handleDelete = () => {
+    dispatch(deleteBlogPost(blogID, navigate));
+  };
 
   // HANDLE SUBMIT
   // eslint-disable-next-line consistent-return
@@ -105,13 +110,10 @@ function ArticleForm({
         <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
           {blogID ? "Update Post" : "Create Post"}
         </MKTypography>
-        {/* TODO: ADD DELETE FUNCTIONALITY! */}
         {deleteButton ? (
-          <Link to={`/blog/edit-post/${blogID}`} ml={3}>
-            <MKButton color="primary" size="small" ml={3}>
-              Delete
-            </MKButton>
-          </Link>
+          <MKButton color="primary" size="small" ml={3} onClick={() => handleDelete()}>
+            Delete
+          </MKButton>
         ) : null}
       </MKBox>
       <MKBox pt={4} pb={3} px={3}>

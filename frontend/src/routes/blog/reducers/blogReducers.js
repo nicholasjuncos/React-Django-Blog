@@ -25,6 +25,13 @@ export function blogReducer(state = initialState, action) {
         errorMessage: "",
         blogPost: action.payload,
       };
+    case "BLOG_DELETE_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        errorMessage: "",
+        blogPost: null,
+      };
     case "BLOG_LIST_SUCCESS":
       return {
         ...state,
@@ -166,6 +173,54 @@ export const getBlogPosts = (extraArgs) => (dispatch) => {
     .get(POST_URL, headers)
     .then((response) => {
       dispatch({ type: "BLOG_LIST_SUCCESS", payload: response.data });
+    })
+    .catch((error) => {
+      let errorMessage = "";
+      if (error.response && error.response.data) {
+        if (typeof error.response.data === "string") {
+          errorMessage = error.response.data;
+        } else if (typeof error.response.data === "object") {
+          if (errorMessage !== "") {
+            errorMessage += "\n";
+          }
+          // eslint-disable-next-line guard-for-in,no-restricted-syntax
+          for (const x in error.response.data) {
+            errorMessage += `${x}: `;
+            // eslint-disable-next-line guard-for-in,no-restricted-syntax
+            for (const y in error.response.data[x]) {
+              errorMessage += `${error.response.data[x][y]} `;
+            }
+          }
+        } else if (error.response.data.non_field_errors) {
+          // eslint-disable-next-line prefer-destructuring
+          errorMessage = error.response.data.non_field_errors[0];
+        }
+      } else {
+        errorMessage = "There was an error with the server. Please contact support.";
+      }
+      console.log(error, error.response, errorMessage);
+      dispatch(setErrorMessage(errorMessage));
+    });
+};
+
+export const deleteBlogPost = (articleID, navigate) => (dispatch) => {
+  console.log(articleID);
+  dispatch({ type: "BLOG_LOADING" });
+  const POST_URL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/form/${articleID}/`;
+  const token = localStorage.getItem("token");
+  let headers = {};
+  if (token) {
+    headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  }
+  axios
+    .delete(POST_URL, headers)
+    .then((response) => {
+      dispatch({ type: "BLOG_DELETE_SUCCESS", payload: response.data });
+      navigate("/");
     })
     .catch((error) => {
       let errorMessage = "";
