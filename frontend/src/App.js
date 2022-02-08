@@ -22,6 +22,7 @@ import PrivateRoute from "./common/HOCs/PrivateRoute";
 import Home from "./routes/home/index";
 import AuthorContainer from "./routes/author/AuthorContainer";
 import ArticleEditContainer from "./routes/blog/article/ArticleEditContainer";
+import ArticleDetailsContainer from "./routes/blog/article/ArticleDetailsContainer";
 
 // Login reducer resetAllStates
 import { resetAllStates } from "./routes/auth/login/reducers/loginReducer";
@@ -130,6 +131,7 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/blog/post-details/:blogPostID" exact element={<ArticleDetailsContainer />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </ThemeProvider>

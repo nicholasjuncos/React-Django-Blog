@@ -30,8 +30,14 @@ class Post(TimeStampedModel, StatusModel):
     text2 = models.TextField(blank=True)
     cover_image = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
     image1 = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+    image1_title = models.CharField(max_length=50, blank=True)
+    image1_text = models.CharField(max_length=200, blank=True)
     image2 = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+    image2_title = models.CharField(max_length=50, blank=True)
+    image2_text = models.CharField(max_length=200, blank=True)
     image3 = models.ImageField(upload_to="blog/posts/", null=True, blank=True)
+    image3_title = models.CharField(max_length=50, blank=True)
+    image3_text = models.CharField(max_length=200, blank=True)
 
     # @property
     # def like_count(self):
@@ -60,6 +66,14 @@ class Post(TimeStampedModel, StatusModel):
 
     def __str__(self):
         return self.title + ", " + str(self.post_date)
+
+
+# TODO: Switch to this model
+# class PostImage(models.Model):
+#     post = models.ForeignKey(Post, related_name="images", on_delete=models.CASCADE)
+#     image = models.ImageField(upload_to="blog/posts/")
+#     title = models.CharField(max_length=50, blank=True)
+#     description = models.CharField(max_length=200, blank=True)
 
 
 # class Comment(TimeStampedModel):

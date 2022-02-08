@@ -48,12 +48,13 @@ function Home() {
         }}
       >
         <Container>
-          <Grid container item xs={12} lg={7} justifyContent="center" mx="auto">
+          <Grid container item xs={12} lg={7} justifyContent="center" mx="auto" alignItems="center">
             <MKTypography
               variant="h1"
               color="white"
               mt={-6}
               mb={1}
+              alignItems="center"
               sx={({ breakpoints, typography: { size } }) => ({
                 [breakpoints.down("md")]: {
                   fontSize: size["3xl"],

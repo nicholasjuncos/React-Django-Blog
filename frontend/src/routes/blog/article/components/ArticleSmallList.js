@@ -33,7 +33,7 @@ function ArticleSmallList({ blogPosts }) {
                   name: `${post.author.username}`,
                   date: `Posted on ${post.post_date}`,
                 }}
-                action={{ type: "internal", route: "/" }}
+                action={{ type: "internal", route: `/blog/post-details/${post.id}` }}
               />
             </Grid>
           ))}

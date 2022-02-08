@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // React-redux components
 import { useDispatch, useSelector } from "react-redux";
 
 // React-router-dom components
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // proptypes to define variables
 import PropTypes from "prop-types";
@@ -36,10 +36,8 @@ function ArticleForm({
   oldText2,
 }) {
   // STATE
+  const deleteButton = !!blogID;
   const [published, setPublished] = useState(false);
-  if (oldStatus === "P") {
-    setPublished(true);
-  }
   const [postDate, setPostDate] = useState(oldPostDate);
   const [title, setTitle] = useState(oldTitle);
   const [titleSubText, setTitleSubText] = useState(oldTitleSubText);
@@ -84,6 +82,12 @@ function ArticleForm({
     );
   };
 
+  useEffect(() => {
+    if (oldStatus === "P") {
+      setPublished(true);
+    }
+  }, []);
+
   return (
     <>
       {errorMessage ? <MKAlert color="error">{errorMessage}</MKAlert> : null}
@@ -101,6 +105,14 @@ function ArticleForm({
         <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
           {blogID ? "Update Post" : "Create Post"}
         </MKTypography>
+        {/* TODO: ADD DELETE FUNCTIONALITY! */}
+        {deleteButton ? (
+          <Link to={`/blog/edit-post/${blogID}`} ml={3}>
+            <MKButton color="primary" size="small" ml={3}>
+              Delete
+            </MKButton>
+          </Link>
+        ) : null}
       </MKBox>
       <MKBox pt={4} pb={3} px={3}>
         <MKBox component="form" role="form" id="signup-form" onSubmit={handleSubmit}>

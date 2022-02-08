@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 // @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Icon from "@mui/material/Icon";
+// import Icon from "@mui/material/Icon";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKComponents/MKBox";
-import MKPagination from "components/MKComponents/MKPagination";
+// import MKPagination from "components/MKComponents/MKPagination";
 
 // Material Kit 2 PRO React components
 import ArticleCard from "routes/blog/article/components/ArticleCard";
@@ -46,29 +46,29 @@ function ArticleLargeList({ blogPosts, showLabel }) {
                     name: `${post.author.username}`,
                     date: `Posted on ${post.post_date}`,
                   }}
-                  action={{ type: "internal", route: "/" }}
+                  action={{ type: "internal", route: `/blog/post-details/${post.id}` }}
                 />
               </MKBox>
             </Grid>
           ))}
         </Grid>
-        <MKBox mt={5}>
-          <MKPagination>
-            <MKPagination item>
-              <Icon>keyboard_arrow_left</Icon>
-            </MKPagination>
-            <MKPagination item active>
-              1
-            </MKPagination>
-            <MKPagination item>2</MKPagination>
-            <MKPagination item>3</MKPagination>
-            <MKPagination item>4</MKPagination>
-            <MKPagination item>5</MKPagination>
-            <MKPagination item>
-              <Icon>keyboard_arrow_right</Icon>
-            </MKPagination>
-          </MKPagination>
-        </MKBox>
+        {/* <MKBox mt={5}> */}
+        {/*  <MKPagination> */}
+        {/*    <MKPagination item> */}
+        {/*      <Icon>keyboard_arrow_left</Icon> */}
+        {/*    </MKPagination> */}
+        {/*    <MKPagination item active> */}
+        {/*      1 */}
+        {/*    </MKPagination> */}
+        {/*    <MKPagination item>2</MKPagination> */}
+        {/*    <MKPagination item>3</MKPagination> */}
+        {/*    <MKPagination item>4</MKPagination> */}
+        {/*    <MKPagination item>5</MKPagination> */}
+        {/*    <MKPagination item> */}
+        {/*      <Icon>keyboard_arrow_right</Icon> */}
+        {/*    </MKPagination> */}
+        {/*  </MKPagination> */}
+        {/* </MKBox> */}
       </Container>
     </MKBox>
   );

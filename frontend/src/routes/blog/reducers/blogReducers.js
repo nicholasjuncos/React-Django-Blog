@@ -51,7 +51,7 @@ export const setErrorMessage = (errorMessage) => ({
 
 export const setBlogPost = (blogForm, navigate) => (dispatch) => {
   dispatch({ type: "BLOG_LOADING" });
-  let postURL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/`;
+  let postURL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/form/`;
   if (blogForm.blogID) {
     postURL += blogForm.blogID.toString();
     postURL += "/";
@@ -103,14 +103,18 @@ export const setBlogPost = (blogForm, navigate) => (dispatch) => {
 
 export const getBlogPost = (articleID) => (dispatch) => {
   dispatch({ type: "BLOG_LOADING" });
-  const POST_URL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/${articleID}/`;
+  const POST_URL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/read/${articleID}/`;
   const token = localStorage.getItem("token");
-  axios
-    .get(POST_URL, {
+  let headers = {};
+  if (token) {
+    headers = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
+    };
+  }
+  axios
+    .get(POST_URL, headers)
     .then((response) => {
       dispatch({ type: "BLOG_SUCCESS", payload: response.data });
     })
@@ -148,7 +152,7 @@ export const getBlogPosts = (extraArgs) => (dispatch) => {
   const status = extraArgs.status ? extraArgs.status : "";
   const postDate = extraArgs.postDate ? extraArgs.postDate : "";
   dispatch({ type: "BLOG_LOADING" });
-  const POST_URL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/?author=${author}&status=${status}&post_date__lte=${postDate}`;
+  const POST_URL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/read/?author=${author}&status=${status}&post_date__lte=${postDate}`;
   const token = localStorage.getItem("token");
   let headers = {};
   if (token) {
