@@ -62,6 +62,7 @@ export default function App() {
             setLoading(false);
           })
           .catch((error) => {
+            // eslint-disable-next-line no-console
             console.log(error, error.response);
             dispatch({ type: "AUTHENTICATION_FAILED" });
             dispatch(resetAllStates());
@@ -70,6 +71,7 @@ export default function App() {
           });
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error, error.response);
         dispatch({ type: "AUTHENTICATION_FAILED" });
         dispatch(resetAllStates());

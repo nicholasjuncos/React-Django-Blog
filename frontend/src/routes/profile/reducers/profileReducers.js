@@ -39,12 +39,25 @@ export const setErrorMessage = (errorMessage) => ({
 
 export const setUser = (userForm) => (dispatch) => {
   dispatch({ type: "LOADING" });
+  let headers = {};
+  const token = localStorage.getItem("token");
+  if (token) {
+    headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  }
   axios
-    .post(`${process.env.REACT_APP_DJANGO_BACKEND}api/auth/user/`, {
-      first_name: userForm.firstName,
-      last_name: userForm.lastName,
-      bio: userForm.bio,
-    })
+    .put(
+      `${process.env.REACT_APP_DJANGO_BACKEND}api/auth/user/`,
+      {
+        first_name: userForm.firstName,
+        last_name: userForm.lastName,
+        bio: userForm.bio,
+      },
+      headers
+    )
     .then((response) => {
       dispatch({ type: "SUCCESS", payload: response.data });
     })
@@ -72,6 +85,7 @@ export const setUser = (userForm) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });

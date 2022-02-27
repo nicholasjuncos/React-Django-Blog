@@ -72,6 +72,7 @@ export const getAuthor = (username) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });

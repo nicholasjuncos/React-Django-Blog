@@ -57,7 +57,6 @@ export const setErrorMessage = (errorMessage) => ({
 
 export const signup = (credentials, navigate) => (dispatch) => {
   dispatch({ type: "AUTHENTICATING" });
-  console.log("HELLO WORLD");
 
   axios
     .post(`${process.env.REACT_APP_DJANGO_BACKEND}api/auth/registration/`, {
@@ -72,7 +71,7 @@ export const signup = (credentials, navigate) => (dispatch) => {
       const { token } = response.data.access_token;
       localStorage.setItem("token", token);
       dispatch({ type: "AUTHENTICATED", payload: response.data.user });
-      navigate(-1, { replace: true });
+      navigate("/");
     })
     .catch((error) => {
       let errorMessage = "";
@@ -98,6 +97,7 @@ export const signup = (credentials, navigate) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });
@@ -134,6 +134,7 @@ export const authenticate = (credentials, navigate) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });
@@ -169,6 +170,7 @@ export const checkAuthentication = (navigate) => (dispatch) => {
           dispatch({ type: "AUTHENTICATED", payload: response.data });
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.log(error, error.response);
           dispatch({ type: "AUTHENTICATION_FAILED" });
           dispatch(resetAllStates());
@@ -177,6 +179,7 @@ export const checkAuthentication = (navigate) => (dispatch) => {
         });
     })
     .catch((error) => {
+      // eslint-disable-next-line no-console
       console.log(error, error.response);
       dispatch({ type: "AUTHENTICATION_FAILED" });
       dispatch(resetAllStates());
@@ -193,6 +196,7 @@ export const checkAuthentication = (navigate) => (dispatch) => {
  * @param {History} history - react-router-dom's useHistory() object.
  */
 export const catchRequestError = (error, errorMessageCallback, history) => (dispatch) => {
+  // eslint-disable-next-line no-console
   console.log("hi", error, error.response);
   if (error.response) {
     if (

@@ -50,7 +50,9 @@ class PostSerializerForUsers(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    last_three_articles = PostSerializerForUsers(many=True)
+    last_three_articles = PostSerializerForUsers(many=True, required=False)
+    email = serializers.EmailField(required=False)
+    username = serializers.CharField(max_length=252, required=False)
 
     class Meta:
         model = User

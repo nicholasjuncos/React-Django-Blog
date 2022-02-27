@@ -37,6 +37,7 @@ function PrivateRoute({ children }) {
             dispatch({ type: "AUTHENTICATED", payload: response.data });
           })
           .catch((error) => {
+            // eslint-disable-next-line no-console
             console.log(error, error.response);
             dispatch({ type: "AUTHENTICATION_FAILED" });
             dispatch(resetAllStates());
@@ -44,6 +45,7 @@ function PrivateRoute({ children }) {
           });
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error, error.response);
         dispatch({ type: "AUTHENTICATION_FAILED" });
         dispatch(resetAllStates());

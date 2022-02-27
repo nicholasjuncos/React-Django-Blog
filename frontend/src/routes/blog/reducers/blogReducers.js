@@ -103,6 +103,7 @@ export const setBlogPost = (blogForm, navigate) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });
@@ -149,6 +150,7 @@ export const getBlogPost = (articleID) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });
@@ -198,13 +200,13 @@ export const getBlogPosts = (extraArgs) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });
 };
 
 export const deleteBlogPost = (articleID, navigate) => (dispatch) => {
-  console.log(articleID);
   dispatch({ type: "BLOG_LOADING" });
   const POST_URL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/form/${articleID}/`;
   const token = localStorage.getItem("token");
@@ -246,6 +248,7 @@ export const deleteBlogPost = (articleID, navigate) => (dispatch) => {
       } else {
         errorMessage = "There was an error with the server. Please contact support.";
       }
+      // eslint-disable-next-line no-console
       console.log(error, error.response, errorMessage);
       dispatch(setErrorMessage(errorMessage));
     });
