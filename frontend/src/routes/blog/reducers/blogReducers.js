@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setMessage } from "../../messageReducer";
 
 const initialState = {
   loading: false,
@@ -58,25 +59,41 @@ export const setErrorMessage = (errorMessage) => ({
 
 export const setBlogPost = (blogForm, navigate) => (dispatch) => {
   dispatch({ type: "BLOG_LOADING" });
+  const token = localStorage.getItem("token");
+  let headers = {};
+  if (token) {
+    headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  }
+  let action = "created";
   let postURL = `${process.env.REACT_APP_DJANGO_BACKEND}api/blog/posts/`;
   if (blogForm.blogID) {
     postURL += blogForm.blogID.toString();
     postURL += "/";
+    action = "updated";
   }
   axios
-    .post(postURL, {
-      author: blogForm.user.pk,
-      status: blogForm.status,
-      post_date: blogForm.postDate,
-      title: blogForm.title,
-      title_sub_text: blogForm.titleSubText,
-      subtitle1: blogForm.subTitle1,
-      text1: blogForm.text1,
-      subtitle2: blogForm.subTitle2,
-      text2: blogForm.text2,
-    })
+    .post(
+      postURL,
+      {
+        author: blogForm.user.pk,
+        status: blogForm.status,
+        post_date: blogForm.postDate,
+        title: blogForm.title,
+        title_sub_text: blogForm.titleSubText,
+        subtitle1: blogForm.subTitle1,
+        text1: blogForm.text1,
+        subtitle2: blogForm.subTitle2,
+        text2: blogForm.text2,
+      },
+      headers
+    )
     .then((response) => {
       dispatch({ type: "BLOG_SUCCESS", payload: response.data });
+      dispatch(setMessage("success", `Successfully ${action} blog post.`));
       navigate("/");
     })
     .catch((error) => {
@@ -222,6 +239,7 @@ export const deleteBlogPost = (articleID, navigate) => (dispatch) => {
     .delete(POST_URL, headers)
     .then((response) => {
       dispatch({ type: "BLOG_DELETE_SUCCESS", payload: response.data });
+      dispatch(setMessage("success", "Successfully deleted blog post."));
       navigate("/");
     })
     .catch((error) => {

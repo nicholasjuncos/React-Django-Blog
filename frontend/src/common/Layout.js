@@ -1,6 +1,9 @@
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
+// React-redux
+import { useSelector } from "react-redux";
+
 // @mui material components
 import Card from "@mui/material/Card";
 
@@ -14,12 +17,17 @@ import SimpleFooter from "common/Footer/index";
 // Material kit 2 PRO React page layout routes
 import routes from "new_routes";
 import bgImage from "../assets/images/city-profile.jpg";
+import MKAlert from "../components/MKComponents/MKAlert";
 
 function Layout({ image, children }) {
   let coverImage = image;
   if (!image) {
     coverImage = bgImage;
   }
+
+  const messageType = useSelector((state) => state.messageReducer.type);
+  const message = useSelector((state) => state.messageReducer.message);
+
   return (
     <>
       <DefaultNavbar routes={routes} transparent light />
@@ -50,6 +58,11 @@ function Layout({ image, children }) {
             boxShadow: ({ boxShadows: { xxl } }) => xxl,
           }}
         >
+          {message ? (
+            <MKAlert color={messageType} dismissible>
+              {message}
+            </MKAlert>
+          ) : null}
           {children}
         </Card>
       </MKBox>

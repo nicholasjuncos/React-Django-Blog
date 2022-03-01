@@ -30,6 +30,7 @@ import MKButton from "components/MKComponents/MKButton";
 // Navbar Components
 import DefaultNavbarDropdown from "./components/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "./components/DefaultNavbarMobile";
+import { setMessage } from "../../routes/messageReducer";
 
 function DefaultNavbar({ brand, routes, transparent, light, action, sticky, relative, center }) {
   const [dropdown, setDropdown] = useState("");
@@ -58,7 +59,8 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
     localStorage.clear();
     dispatch({ type: "LOG_OUT" });
     // dispatch({ type: "RESET_SEARCH_STATE" });
-    navigate("/login", { replace: true });
+    dispatch(setMessage("success", "Successfully logged out."));
+    navigate("/");
   };
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);

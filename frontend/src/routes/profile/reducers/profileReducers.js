@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setMessage } from "../../messageReducer";
 
 const initialState = {
   loading: false,
@@ -60,6 +61,7 @@ export const setUser = (userForm) => (dispatch) => {
     )
     .then((response) => {
       dispatch({ type: "SUCCESS", payload: response.data });
+      dispatch(setMessage("success", "Successfully updated profile."));
     })
     .catch((error) => {
       let errorMessage = "";

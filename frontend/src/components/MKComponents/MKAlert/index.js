@@ -15,6 +15,9 @@ Coded by www.creative-tim.com
 
 import { useState } from "react";
 
+// React-Redux
+import { useDispatch } from "react-redux";
+
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -27,9 +30,11 @@ import MKBox from "components/MKComponents/MKBox";
 // Custom styles for the MKAlert
 import MKAlertRoot from "components/MKComponents/MKAlert/MKAlertRoot";
 import MKAlertCloseIcon from "components/MKComponents/MKAlert/MKAlertCloseIcon";
+import { clearMessage } from "../../../routes/messageReducer";
 
 function MKAlert({ color, dismissible, children, ...rest }) {
   const [alertStatus, setAlertStatus] = useState("mount");
+  const dispatch = useDispatch();
 
   const handleAlertStatus = () => setAlertStatus("fadeOut");
 
@@ -58,6 +63,7 @@ function MKAlert({ color, dismissible, children, ...rest }) {
       return alertTemplate();
     case alertStatus === "fadeOut":
       setTimeout(() => setAlertStatus("unmount"), 400);
+      dispatch(clearMessage());
       return alertTemplate(false);
     default:
       alertTemplate();

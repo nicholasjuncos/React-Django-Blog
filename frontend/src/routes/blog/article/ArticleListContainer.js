@@ -38,8 +38,8 @@ function ArticleListContainer() {
     let author = "";
     let status = "";
     if (pathname === "/blog/my-posts") {
-      setPostAuthor(user.pk);
-      author = user.pk;
+      setPostAuthor(user.username);
+      author = user.username;
     } else if (pathname === "/") {
       status = "P";
     } else {
@@ -69,7 +69,7 @@ function ArticleListContainer() {
               >
                 {postAuthor ? (
                   <MKTypography variant="h3" mb={3} textAlign="center">
-                    Posts by {postAuthor}
+                    {pathname === "/blog/my-posts" ? "My posts" : `Posts by ${postAuthor}`}
                   </MKTypography>
                 ) : null}
               </Grid>

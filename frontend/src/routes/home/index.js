@@ -22,11 +22,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import ArticleLargeList from "../blog/article/components/ArticleLargeList";
 import { getBlogPosts } from "../blog/reducers/blogReducers";
+import MKAlert from "../../components/MKComponents/MKAlert";
 
 function Home() {
   // REDUX
   const dispatch = useDispatch();
   const blogPosts = useSelector((state) => state.blogReducer.blogPosts);
+  const messageType = useSelector((state) => state.messageReducer.type);
+  const message = useSelector((state) => state.messageReducer.message);
   const today = new Date();
 
   useEffect(() => {
@@ -90,6 +93,11 @@ function Home() {
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
+        {message ? (
+          <MKAlert color={messageType} dismissible>
+            {message}
+          </MKAlert>
+        ) : null}
         {blogPosts ? (
           <>
             <MKBox component="section" py={6} mt={6}>

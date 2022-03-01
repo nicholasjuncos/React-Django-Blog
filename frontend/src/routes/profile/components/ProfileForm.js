@@ -30,6 +30,7 @@ import MKAlert from "components/MKComponents/MKAlert";
 import { CircularProgress } from "@mui/material";
 
 import { setUser } from "../reducers/profileReducers";
+import { clearMessage } from "../../messageReducer";
 
 function ProfileForm({ oldFirstName, oldLastName, oldBio }) {
   // STATE
@@ -46,6 +47,7 @@ function ProfileForm({ oldFirstName, oldLastName, oldBio }) {
   // eslint-disable-next-line consistent-return
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(clearMessage());
     dispatch(setUser({ firstName, lastName, bio }));
   };
 

@@ -23,6 +23,7 @@ import MKDatePicker from "components/MKComponents/MKDatePicker";
 
 // Blog reducers
 import { setBlogPost, deleteBlogPost } from "../../reducers/blogReducers";
+import { clearMessage } from "../../../messageReducer";
 
 function ArticleForm({
   blogID,
@@ -68,6 +69,7 @@ function ArticleForm({
     if (published) {
       status = "P";
     }
+    dispatch(clearMessage());
     dispatch(
       setBlogPost(
         {

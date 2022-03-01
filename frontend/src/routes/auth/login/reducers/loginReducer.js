@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setMessage } from "../../../messageReducer";
 
 const initialState = {
   authenticated: false,
@@ -71,6 +72,7 @@ export const signup = (credentials, navigate) => (dispatch) => {
       const { token } = response.data.access_token;
       localStorage.setItem("token", token);
       dispatch({ type: "AUTHENTICATED", payload: response.data.user });
+      dispatch(setMessage("success", "Successfully signed up."));
       navigate("/");
     })
     .catch((error) => {
@@ -115,7 +117,8 @@ export const authenticate = (credentials, navigate) => (dispatch) => {
       const token = response.data.access_token;
       localStorage.setItem("token", token);
       dispatch({ type: "AUTHENTICATED", payload: response.data.user });
-      navigate(-1, { replace: true });
+      dispatch(setMessage("success", "Successfully logged in."));
+      navigate("/");
       // if (history.location.state) {
       //   history.replace(history.location.state.from.pathname);
       // } else {

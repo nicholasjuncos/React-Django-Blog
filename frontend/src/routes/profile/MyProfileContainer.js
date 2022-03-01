@@ -18,12 +18,15 @@ import bgImage from "assets/images/city-profile.jpg";
 import routes from "new_routes";
 
 import ProfileForm from "./components/ProfileForm";
+import MKAlert from "../../components/MKComponents/MKAlert";
 
 // Author page sections
 // import Posts from "pages/CreativeTim/Blogs/Author/sections/Posts";
 
 function MyProfile() {
   const user = useSelector((state) => state.loginReducer.user);
+  const messageType = useSelector((state) => state.messageReducer.type);
+  const message = useSelector((state) => state.messageReducer.message);
 
   return (
     <>
@@ -55,6 +58,11 @@ function MyProfile() {
             boxShadow: ({ boxShadows: { xxl } }) => xxl,
           }}
         >
+          {message ? (
+            <MKAlert color={messageType} dismissible>
+              {message}
+            </MKAlert>
+          ) : null}
           <ProfileForm
             oldFirstName={user.first_name}
             oldLastName={user.last_name}
