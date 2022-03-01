@@ -23,6 +23,7 @@ import Home from "./routes/home/index";
 import AuthorContainer from "./routes/author/AuthorContainer";
 import ArticleEditContainer from "./routes/blog/article/ArticleEditContainer";
 import ArticleDetailsContainer from "./routes/blog/article/ArticleDetailsContainer";
+import ArticleListContainer from "./routes/blog/article/ArticleListContainer";
 
 // Login reducer resetAllStates
 import { resetAllStates } from "./routes/auth/login/reducers/loginReducer";
@@ -124,6 +125,7 @@ export default function App() {
         {getRoutes(routes)}
         <Route path="/" exact element={<Home />} />
         <Route path="/blog/authors/:username" exact element={<AuthorContainer />} />
+        <Route path="/blog/authors/:username/posts" exact element={<ArticleListContainer />} />
         <Route
           path="/blog/edit-post/:blogPostID"
           exact

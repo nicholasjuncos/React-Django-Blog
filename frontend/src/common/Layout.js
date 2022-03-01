@@ -53,7 +53,7 @@ function Layout({ image, children }) {
           {children}
         </Card>
       </MKBox>
-      <SimpleFooter light />
+      <SimpleFooter />
     </>
   );
 }

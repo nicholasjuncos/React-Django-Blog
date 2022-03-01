@@ -101,6 +101,7 @@ function ArticleDetails({ blogPost, includeStatus }) {
             justifyContent="center"
             flexDirection="column"
             alignContent="center"
+            textAlign="center"
           >
             <MKTypography
               variant="h1"
@@ -125,6 +126,9 @@ function ArticleDetails({ blogPost, includeStatus }) {
                 {blogPost.title_sub_text}
               </MKTypography>
             )}
+            <MKTypography variant="body1" color="white" opacity={0.8}>
+              By {blogPost.author.display_name}
+            </MKTypography>
           </Grid>
         </Container>
       </MKBox>
@@ -171,7 +175,27 @@ function ArticleDetails({ blogPost, includeStatus }) {
             </Container>
           </MKBox>
         ) : null}
-        <ArticleSmallList blogPosts={blogPost.author.last_three_articles} />
+        <MKBox component="section" py={6} mt={6}>
+          <Container>
+            <Grid
+              container
+              item
+              xs={12}
+              lg={12}
+              mx="auto"
+              justifyContent="center"
+              flexDirection="column"
+              alignContent="center"
+            >
+              <MKTypography variant="h2" mb={3} textAlign="center">
+                <Link to={`/blog/authors/${blogPost.author.username}`}>
+                  Recent Posts by {blogPost.author.display_name}
+                </Link>
+              </MKTypography>
+              <ArticleSmallList blogPosts={blogPost.author.last_three_articles} />
+            </Grid>
+          </Container>
+        </MKBox>
       </Card>
     </>
   );

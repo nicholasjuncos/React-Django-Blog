@@ -1,4 +1,3 @@
-/* eslint-disable */
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
@@ -33,41 +32,53 @@ function Profile({ user }) {
           </MKBox>
           <Grid container justifyContent="center" pb={6}>
             <Grid item xs={12} md={7} mx={{ xs: "auto", sm: 6, md: 1 }}>
-              <MKBox display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                <MKTypography variant="h4">{user.full_name}</MKTypography>
+              <MKBox
+                display="flex"
+                justifyContent="space-between"
+                flexDirection="column"
+                alignItems="center"
+                mb={1}
+              >
+                {user.full_name ? (
+                  <MKTypography variant="h4">Full name: {user.full_name}</MKTypography>
+                ) : null}
+                <MKTypography variant="h4">Username: {user.username}</MKTypography>
                 {/* <MKButton variant="outlined" color="info" size="small"> */}
                 {/*  Follow */}
                 {/* </MKButton> */}
               </MKBox>
-              {/*<Grid container spacing={3} mb={3}>*/}
-              {/*  <Grid item>*/}
-              {/*    <MKTypography component="span" variant="body2" fontWeight="bold">*/}
-              {/*      323&nbsp;*/}
-              {/*    </MKTypography>*/}
-              {/*    <MKTypography component="span" variant="body2" color="text">*/}
-              {/*      Posts*/}
-              {/*    </MKTypography>*/}
-              {/*  </Grid>*/}
-              {/*  <Grid item>*/}
-              {/*    <MKTypography component="span" variant="body2" fontWeight="bold">*/}
-              {/*      3.5k&nbsp;*/}
-              {/*    </MKTypography>*/}
-              {/*    <MKTypography component="span" variant="body2" color="text">*/}
-              {/*      Followers*/}
-              {/*    </MKTypography>*/}
-              {/*  </Grid>*/}
-              {/*  <Grid item>*/}
-              {/*    <MKTypography component="span" variant="body2" fontWeight="bold">*/}
-              {/*      260&nbsp;*/}
-              {/*    </MKTypography>*/}
-              {/*    <MKTypography component="span" variant="body2" color="text">*/}
-              {/*      Following*/}
-              {/*    </MKTypography>*/}
-              {/*  </Grid>*/}
-              {/*</Grid>*/}
-              <MKTypography variant="body1" fontWeight="light" color="text">
-                {user.bio}
-              </MKTypography>
+              {/* <Grid container spacing={3} mb={3}> */}
+              {/*  <Grid item> */}
+              {/*    <MKTypography component="span" variant="body2" fontWeight="bold"> */}
+              {/*      323&nbsp; */}
+              {/*    </MKTypography> */}
+              {/*    <MKTypography component="span" variant="body2" color="text"> */}
+              {/*      Posts */}
+              {/*    </MKTypography> */}
+              {/*  </Grid> */}
+              {/*  <Grid item> */}
+              {/*    <MKTypography component="span" variant="body2" fontWeight="bold"> */}
+              {/*      3.5k&nbsp; */}
+              {/*    </MKTypography> */}
+              {/*    <MKTypography component="span" variant="body2" color="text"> */}
+              {/*      Followers */}
+              {/*    </MKTypography> */}
+              {/*  </Grid> */}
+              {/*  <Grid item> */}
+              {/*    <MKTypography component="span" variant="body2" fontWeight="bold"> */}
+              {/*      260&nbsp; */}
+              {/*    </MKTypography> */}
+              {/*    <MKTypography component="span" variant="body2" color="text"> */}
+              {/*      Following */}
+              {/*    </MKTypography> */}
+              {/*  </Grid> */}
+              {/* </Grid> */}
+              {user.bio ? (
+                <MKTypography variant="body1" fontWeight="light" color="text">
+                  Bio: <br />
+                  {user.bio}
+                </MKTypography>
+              ) : null}
             </Grid>
           </Grid>
         </Grid>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 // React-router-dom components
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // React-redux components
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,8 @@ import MKBox from "../../../components/MKComponents/MKBox";
 
 function ArticleDetailsContainer() {
   const params = useParams();
+
+  const { pathname } = useLocation();
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
   const { blogPostID } = params;
@@ -32,7 +34,7 @@ function ArticleDetailsContainer() {
 
   useEffect(() => {
     dispatch(getBlogPost(blogPostID));
-  }, []);
+  }, [pathname]);
 
   return (
     <>

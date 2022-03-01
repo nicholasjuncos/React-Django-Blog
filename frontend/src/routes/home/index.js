@@ -48,13 +48,23 @@ function Home() {
         }}
       >
         <Container>
-          <Grid container item xs={12} lg={7} justifyContent="center" mx="auto" alignItems="center">
+          <Grid
+            container
+            item
+            xs={12}
+            lg={12}
+            justifyContent="center"
+            mx="auto"
+            alignItems="center"
+          >
             <MKTypography
               variant="h1"
               color="white"
               mt={-6}
               mb={1}
               alignItems="center"
+              width="100%"
+              textAlign="center"
               sx={({ breakpoints, typography: { size } }) => ({
                 [breakpoints.down("md")]: {
                   fontSize: size["3xl"],
@@ -80,7 +90,29 @@ function Home() {
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
-        {blogPosts ? <ArticleLargeList blogPosts={blogPosts} showLabel={false} /> : null}
+        {blogPosts ? (
+          <>
+            <MKBox component="section" py={6} mt={6}>
+              <Container>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  lg={12}
+                  mx="auto"
+                  justifyContent="center"
+                  flexDirection="column"
+                  alignContent="center"
+                >
+                  <MKTypography variant="h3" mb={3} textAlign="center">
+                    All Published Posts
+                  </MKTypography>
+                </Grid>
+              </Container>
+            </MKBox>
+            <ArticleLargeList blogPosts={blogPosts} showLabel={false} />
+          </>
+        ) : null}
       </Card>
       <MKBox pt={6} px={1} mt={6}>
         <SimpleFooter />
