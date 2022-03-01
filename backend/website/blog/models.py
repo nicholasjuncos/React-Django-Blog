@@ -76,16 +76,16 @@ class Post(TimeStampedModel, StatusModel):
 #     description = models.CharField(max_length=200, blank=True)
 
 
-# class Comment(TimeStampedModel):
-#     article = models.ForeignKey(Post, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     comment = models.CharField(max_length=1000)
+class Comment(TimeStampedModel):
+    article = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=1000)
 
 
-# class Reply(TimeStampedModel):
-#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     reply = models.CharField(max_length=1000)
+class Reply(TimeStampedModel):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply = models.CharField(max_length=1000)
 
 
 # class Report(TimeStampedModel):
@@ -94,20 +94,23 @@ class Post(TimeStampedModel, StatusModel):
 #     reply = models.ForeignKey(Reply, on_delete=models.CASCADE, null=True, blank=True)
 
 
-# class Like(models.Model):
-#     article = models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     comment = models.ForeignKey(Comment, null=True, on_delete=models.CASCADE)
-#     reply = models.ForeignKey(Reply, null=True, on_delete=models.CASCADE)
-#     created = models.DateTimeField()
-#
-#     def save(self, *args, **kwargs):
-#         if not self.id:
-#             self.created = datetime.datetime.now()
-#         return super(Like, self).save(*args, **kwargs)
-#
-#
-# class Follow(models.Model):
-#     user_follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
-#     author_followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name="authors_following")
-#     created = models.DateTimeField(auto_now_add=True)
+class Like(models.Model):
+    article = models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, null=True, on_delete=models.CASCADE)
+    reply = models.ForeignKey(Reply, null=True, on_delete=models.CASCADE)
+    created = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = datetime.datetime.now()
+        return super(Like, self).save(*args, **kwargs)
+
+
+class Follow(models.Model):
+    user_follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="authors_following")
+    author_followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user_follower.__str__() + " following " + self.author_followed.__str__()

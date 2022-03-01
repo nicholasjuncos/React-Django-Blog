@@ -4,9 +4,10 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
 from ..common.mixins import GetSerializerClassMixin
-from .models import Post
-from .permissions import IsAuthorOrReadOnly
-from .serializers import PostSerializer, PostSerializerReadOnly
+from .models import Post, Like, Comment, Reply, Follow
+from .permissions import IsAuthorOrReadOnly, UserLikeCommentReplyOwnerOrReadOnly
+from .serializers import PostSerializer, PostSerializerReadOnly, LikeSerializer, CommentSerializer, ReplySerializer, \
+    FollowSerializer
 
 
 class PostViewSet(GetSerializerClassMixin, ModelViewSet):
@@ -35,3 +36,43 @@ class PostViewSet(GetSerializerClassMixin, ModelViewSet):
             return self.queryset
         # by default only show users themselves, alter this filter to allow users to see others
         return self.queryset.filter(Q(author_id=self.request.user.id) | Q(status='P'))
+
+
+class LikeViewSet(ModelViewSet):
+    serializer_class = LikeSerializer
+    queryset = Like.objects.all()
+    lookup_field = 'id'
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created']
+    ordering = ['-created']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, UserLikeCommentReplyOwnerOrReadOnly]
+
+
+class CommentViewSet(ModelViewSet):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+    lookup_field = 'id'
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created', 'modified']
+    ordering = ['-created']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, UserLikeCommentReplyOwnerOrReadOnly]
+
+
+class ReplyViewSet(ModelViewSet):
+    serializer_class = ReplySerializer
+    queryset = Reply.objects.all()
+    lookup_field = 'id'
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created', 'modified']
+    ordering = ['-created']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, UserLikeCommentReplyOwnerOrReadOnly]
+
+
+class FollowViewSet(ModelViewSet):
+    serializer_class = FollowSerializer
+    queryset = Follow.objects.all()
+    lookup_field = 'id'
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created']
+    ordering = ['-created']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, UserLikeCommentReplyOwnerOrReadOnly]
