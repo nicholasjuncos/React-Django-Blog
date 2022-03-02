@@ -19,6 +19,7 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title', 'post_date')
     ordering = ('post_date', 'title',)
 
+
 admin.site.register(Comment)
 admin.site.register(Reply)
 admin.site.register(Like)
