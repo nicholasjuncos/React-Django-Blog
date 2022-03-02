@@ -9,16 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 // Project Navbar and Footer
 import DefaultNavbar from "common/Navbar/index";
 import SimpleFooter from "common/Footer/index";
+import Spinner from "common/Spinner";
 
 // Import routes
 import routes from "new_routes";
+
+import MKBox from "../../../components/MKComponents/MKBox";
 
 // Article Form Component
 import ArticleDetails from "./components/ArticleDetails";
 
 // Blog reducers
 import { getBlogPost } from "../reducers/blogReducers";
-import MKBox from "../../../components/MKComponents/MKBox";
 
 function ArticleDetailsContainer() {
   const params = useParams();
@@ -41,7 +43,7 @@ function ArticleDetailsContainer() {
       <MKBox bgColor="white" py={0.25}>
         <DefaultNavbar routes={routes} transparent light />
       </MKBox>
-      {blogPost ? <ArticleDetails blogPost={blogPost} /> : null}
+      {blogPost ? <ArticleDetails blogPost={blogPost} /> : <Spinner />}
       <MKBox pt={6} px={1} mt={6}>
         <SimpleFooter />
       </MKBox>

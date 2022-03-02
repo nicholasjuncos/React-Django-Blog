@@ -178,7 +178,9 @@ export const checkAuthentication = (navigate) => (dispatch) => {
           dispatch({ type: "AUTHENTICATION_FAILED" });
           dispatch(resetAllStates());
           localStorage.clear();
-          navigate("/login", { replace: true });
+          if (navigate) {
+            navigate("/login", { replace: true });
+          }
         });
     })
     .catch((error) => {
@@ -187,8 +189,9 @@ export const checkAuthentication = (navigate) => (dispatch) => {
       dispatch({ type: "AUTHENTICATION_FAILED" });
       dispatch(resetAllStates());
       localStorage.clear();
-      navigate("/login", { replace: true });
-      // history.replace("/login");
+      if (navigate) {
+        navigate("/login", { replace: true });
+      }
     });
 };
 

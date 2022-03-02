@@ -13,13 +13,16 @@ import bgImage from "assets/images/city-profile.jpg";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
+import MKTypography from "components/MKComponents/MKTypography";
+import MKBox from "components/MKComponents/MKBox";
+
 // Author page sections
 import ArticleSmallList from "routes/blog/article/components/ArticleSmallList";
 import Layout from "common/Layout";
+import Spinner from "common/Spinner";
+
 import Profile from "./components/profile";
 import { getAuthor } from "./reducers/authorReducers";
-import MKTypography from "../../components/MKComponents/MKTypography";
-import MKBox from "../../components/MKComponents/MKBox";
 
 function Author() {
   const params = useParams();
@@ -28,17 +31,18 @@ function Author() {
 
   // REDUX
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authorReducer.author);
+  const author = useSelector((state) => state.authorReducer.author);
 
   useEffect(() => {
+    dispatch({ type: "RESET_APP" });
     dispatch(getAuthor(username));
   }, [pathname]);
 
   return (
     <Layout image={bgImage}>
-      {user ? (
+      {author ? (
         <>
-          <Profile user={user} />
+          <Profile author={author} />
           <MKBox component="section" py={6} mt={6}>
             <Container>
               <Grid
@@ -52,14 +56,16 @@ function Author() {
                 alignContent="center"
               >
                 <MKTypography variant="h3" mb={3} textAlign="center">
-                  <Link to={`/blog/authors/${user.username}/posts`}>Recent Posts</Link>
+                  <Link to={`/blog/authors/${author.username}/posts`}>Recent Posts</Link>
                 </MKTypography>
-                <ArticleSmallList blogPosts={user.last_three_articles} />
+                <ArticleSmallList blogPosts={author.last_three_articles} />
               </Grid>
             </Container>
           </MKBox>
         </>
-      ) : null}
+      ) : (
+        <Spinner />
+      )}
     </Layout>
   );
 }

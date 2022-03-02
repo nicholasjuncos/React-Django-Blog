@@ -4,22 +4,20 @@ import PropTypes from "prop-types";
 // @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-// import Icon from "@mui/material/Icon";
 
 // Material Kit 2 PRO React components
 import MKBox from "components/MKComponents/MKBox";
 import MKAvatar from "components/MKComponents/MKAvatar";
-// import MKButton from "components/MKComponents/MKButton";
 import MKTypography from "components/MKComponents/MKTypography";
 
-// Images
 import defaultPicture from "assets/images/default-profile-pic.jpeg";
+import FollowButton from "./FollowButton";
 
-function Profile({ user }) {
+function Profile({ author }) {
   let profilePicture = defaultPicture;
-  if (user) {
-    if (user.profile_photo) {
-      profilePicture = user.profile_photo;
+  if (author) {
+    if (author.profile_photo) {
+      profilePicture = author.profile_photo;
     }
   }
 
@@ -39,44 +37,42 @@ function Profile({ user }) {
                 alignItems="center"
                 mb={1}
               >
-                {user.full_name ? (
-                  <MKTypography variant="h4">Full name: {user.full_name}</MKTypography>
+                <FollowButton author={author} />
+                {author.full_name ? (
+                  <MKTypography variant="h4">Full name: {author.full_name}</MKTypography>
                 ) : null}
-                <MKTypography variant="h4">Username: {user.username}</MKTypography>
-                {/* <MKButton variant="outlined" color="info" size="small"> */}
-                {/*  Follow */}
-                {/* </MKButton> */}
+                <MKTypography variant="h4">Username: {author.username}</MKTypography>
               </MKBox>
-              {/* <Grid container spacing={3} mb={3}> */}
-              {/*  <Grid item> */}
-              {/*    <MKTypography component="span" variant="body2" fontWeight="bold"> */}
-              {/*      323&nbsp; */}
-              {/*    </MKTypography> */}
-              {/*    <MKTypography component="span" variant="body2" color="text"> */}
-              {/*      Posts */}
-              {/*    </MKTypography> */}
-              {/*  </Grid> */}
-              {/*  <Grid item> */}
-              {/*    <MKTypography component="span" variant="body2" fontWeight="bold"> */}
-              {/*      3.5k&nbsp; */}
-              {/*    </MKTypography> */}
-              {/*    <MKTypography component="span" variant="body2" color="text"> */}
-              {/*      Followers */}
-              {/*    </MKTypography> */}
-              {/*  </Grid> */}
-              {/*  <Grid item> */}
-              {/*    <MKTypography component="span" variant="body2" fontWeight="bold"> */}
-              {/*      260&nbsp; */}
-              {/*    </MKTypography> */}
-              {/*    <MKTypography component="span" variant="body2" color="text"> */}
-              {/*      Following */}
-              {/*    </MKTypography> */}
-              {/*  </Grid> */}
-              {/* </Grid> */}
-              {user.bio ? (
+              <Grid container spacing={3} mb={3} justifyContent="center">
+                <Grid item>
+                  <MKTypography component="span" variant="body2" fontWeight="bold">
+                    {author.published_posts.length}&nbsp;
+                  </MKTypography>
+                  <MKTypography component="span" variant="body2" color="text">
+                    Posts
+                  </MKTypography>
+                </Grid>
+                <Grid item>
+                  <MKTypography component="span" variant="body2" fontWeight="bold">
+                    {author.followers.length}&nbsp;
+                  </MKTypography>
+                  <MKTypography component="span" variant="body2" color="text">
+                    Followers
+                  </MKTypography>
+                </Grid>
+                <Grid item>
+                  <MKTypography component="span" variant="body2" fontWeight="bold">
+                    {author.authors_following.length}&nbsp;
+                  </MKTypography>
+                  <MKTypography component="span" variant="body2" color="text">
+                    Following
+                  </MKTypography>
+                </Grid>
+              </Grid>
+              {author.bio ? (
                 <MKTypography variant="body1" fontWeight="light" color="text">
                   Bio: <br />
-                  {user.bio}
+                  {author.bio}
                 </MKTypography>
               ) : null}
             </Grid>
@@ -88,7 +84,7 @@ function Profile({ user }) {
 }
 
 Profile.propTypes = {
-  user: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  author: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default Profile;

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // eslint-disable-next-line import/no-cycle
 import Layout from "common/Layout";
+import Spinner from "common/Spinner";
 
 // Images
 import bgImage from "assets/images/city-profile.jpg";
@@ -77,7 +78,9 @@ function ArticleListContainer() {
           </MKBox>
           <ArticleLargeList blogPosts={blogPosts} showLabel={pathname === "/blog/my-posts"} />
         </>
-      ) : null}
+      ) : (
+        <Spinner />
+      )}
     </Layout>
   );
 }

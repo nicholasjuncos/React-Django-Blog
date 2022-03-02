@@ -6,10 +6,12 @@ import Card from "@mui/material/Card";
 // Material Kit 2 PRO React components
 import MKBox from "components/MKComponents/MKBox";
 import MKTypography from "components/MKComponents/MKTypography";
+import MKAlert from "components/MKComponents/MKAlert";
 
 // Common Components such as navbar and footer
 import DefaultNavbar from "common/Navbar/index";
 import SimpleFooter from "common/Footer/index";
+import Spinner from "common/Spinner";
 
 // Routes
 // eslint-disable-next-line import/no-cycle
@@ -22,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import ArticleLargeList from "../blog/article/components/ArticleLargeList";
 import { getBlogPosts } from "../blog/reducers/blogReducers";
-import MKAlert from "../../components/MKComponents/MKAlert";
 
 function Home() {
   // REDUX
@@ -120,7 +121,9 @@ function Home() {
             </MKBox>
             <ArticleLargeList blogPosts={blogPosts} showLabel={false} />
           </>
-        ) : null}
+        ) : (
+          <Spinner />
+        )}
       </Card>
       <MKBox pt={6} px={1} mt={6}>
         <SimpleFooter />

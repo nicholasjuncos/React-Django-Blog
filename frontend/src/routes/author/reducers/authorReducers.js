@@ -9,11 +9,14 @@ const initialState = {
 // ************************ REDUCER ************************
 export function authorReducer(state = initialState, action) {
   switch (action.type) {
+    case "RESET_APP":
+      return initialState;
     case "USER_RETRIEVAL":
       return {
         ...state,
         loading: true,
         errorMessage: "",
+        author: null,
       };
     case "USER_RETRIEVED":
       return {

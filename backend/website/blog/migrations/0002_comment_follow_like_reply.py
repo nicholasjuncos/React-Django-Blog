@@ -48,10 +48,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created', models.DateTimeField()),
-                ('article', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='blog.post')),
-                ('comment', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='blog.comment')),
-                ('reply', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='blog.reply')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('article', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='blog.post')),
+                ('comment', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='blog.comment')),
+                ('reply', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='blog.reply')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(

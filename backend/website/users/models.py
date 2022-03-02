@@ -49,8 +49,21 @@ class User(AbstractUser):
         return self.post_set.filter(status="P", post_date__lte=today).order_by("-post_date")[:3]
 
     @property
+    def published_posts(self):
+        today = datetime.date.today()
+        return self.post_set.filter(status="P", post_date__lte=today).order_by("-post_date")
+
+    @property
     def full_name(self):
         return (self.first_name + ' ' + self.last_name).strip()
+
+    @property
+    def followers_usernames(self):
+        return self.followers.all().values_list('user_follower__username', flat=True)
+
+    @property
+    def following_usernames(self):
+        return self.authors_following.all().values_list('author_followed__username', flat=True)
 
     def has_group(self, group):
         return self.groups.filter(name=group).exists()

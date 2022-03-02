@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "common/Layout";
+import Spinner from "common/Spinner";
 
 // Images
 import bgImage from "assets/images/city-profile.jpg";
@@ -42,7 +43,9 @@ function ArticleEditContainer() {
           oldText1={blogPost.text1}
           oldText2={blogPost.text2}
         />
-      ) : null}
+      ) : (
+        <Spinner />
+      )}
     </Layout>
   );
 }

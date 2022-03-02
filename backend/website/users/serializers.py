@@ -3,7 +3,7 @@ from django.db import transaction
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
-from ..blog.models import Post
+from ..blog.models import Post, Follow
 
 User = get_user_model()
 
@@ -49,15 +49,30 @@ class PostSerializerForUsers(serializers.ModelSerializer):
         }
 
 
+class FollowSerializerForUsers(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = ['id', 'user_follower', 'author_followed', 'created', 'url']
+        extra_kwargs = {
+            'url': {'view_name': 'api:follow-detail', 'lookup_field': 'id'}
+        }
+        read_only_fields = ['created']
+
+
 class UserSerializer(serializers.ModelSerializer):
+    followers = FollowSerializerForUsers(many=True, required=False)
+    authors_following = FollowSerializerForUsers(many=True, required=False)
     last_three_articles = PostSerializerForUsers(many=True, required=False)
+    published_posts = PostSerializerForUsers(many=True, required=False)
     email = serializers.EmailField(required=False)
     username = serializers.CharField(max_length=252, required=False)
 
     class Meta:
         model = User
-        fields = ['pk', 'username', 'email', 'first_name', 'last_name', 'bio', 'profile_photo', 'cover_photo', 'full_name', 'display_name', 'last_three_articles', 'url']
+        fields = ['pk', 'username', 'email', 'first_name', 'last_name', 'bio', 'profile_photo', 'cover_photo', 'full_name', 'display_name', 'last_three_articles', 'followers', 'authors_following', 'followers_usernames', 'following_usernames', 'published_posts', 'likes', 'url']
 
         extra_kwargs = {
             'url': {'view_name': 'api:user-detail', 'lookup_field': 'username'}
         }
+
+        read_only_fields = ['followers', 'authors_following', 'last_three_articles', 'published_posts']
