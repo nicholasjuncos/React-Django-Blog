@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import MKButton from "components/MKComponents/MKButton";
 
-import { createFollow, deleteFollow } from "../../blog/reducers/followReducers";
+import { createFollow, deleteFollow } from "../reducers/followReducers";
 import { checkAuthentication } from "../../auth/login/reducers/loginReducer";
 
 function FollowButton({ author }) {

@@ -22,13 +22,18 @@ import MKTypography from "components/MKComponents/MKTypography";
 // Images
 import bgImage from "assets/images/bg5.jpg";
 import { Link } from "react-router-dom";
+import MKButton from "components/MKComponents/MKButton";
+import MKAlert from "components/MKComponents/MKAlert";
 import ArticleDetailsImagesSlider from "./ArticleDetailsImagesSlider";
 import ArticleSmallList from "./ArticleSmallList";
-import MKButton from "../../../../components/MKComponents/MKButton";
+import LikeArticleButton from "./LikeButtons/LikePostButton";
 
 // eslint-disable-next-line no-unused-vars
 function ArticleDetails({ blogPost, includeStatus }) {
   const user = useSelector((state) => state.loginReducer.user);
+  const messageType = useSelector((state) => state.messageReducer.type);
+  const message = useSelector((state) => state.messageReducer.message);
+
   let userMatch = false;
   const headerRef = useRef(null);
   let coverImage = bgImage;
@@ -141,6 +146,11 @@ function ArticleDetails({ blogPost, includeStatus }) {
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
+        {message ? (
+          <MKAlert color={messageType} dismissible>
+            {message}
+          </MKAlert>
+        ) : null}
         <MKBox component="section" py={6} mt={6}>
           <Container>
             <Grid container spacing={3} item xs={12} lg={8} mx="auto">
@@ -152,6 +162,7 @@ function ArticleDetails({ blogPost, includeStatus }) {
                     </MKButton>
                   </Link>
                 ) : null}
+                <LikeArticleButton article={blogPost} />
                 <MKTypography variant="h3" mb={3}>
                   {blogPost.subtitle1}
                 </MKTypography>

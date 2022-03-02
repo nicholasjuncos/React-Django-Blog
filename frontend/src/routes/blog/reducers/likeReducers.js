@@ -4,32 +4,30 @@ import { setMessage } from "../../messageReducer";
 const initialState = {
   loading: false,
   errorMessage: "",
-  like: null,
 };
 
 // ************************ REDUCER ************************
 export function likeReducer(state = initialState, action) {
   switch (action.type) {
+    case "RESET_APP":
+      return initialState;
     case "LIKE_LOADING":
       return {
         ...state,
         loading: true,
         errorMessage: "",
-        like: null,
       };
     case "LIKE_SUCCESS":
       return {
         ...state,
         loading: false,
         errorMessage: "",
-        like: action.payload,
       };
     case "LIKE_DELETE_SUCCESS":
       return {
         ...state,
         loading: false,
         errorMessage: "",
-        like: null,
       };
     case "LIKE_FAILURE":
       return {
@@ -56,7 +54,7 @@ export const createLike = (likeForm) => (dispatch) => {
   const data = {
     user,
   };
-  data[likeType] = likeForm.likeID;
+  data[likeType] = likeForm.objectID;
 
   const token = localStorage.getItem("token");
   let headers = {};
@@ -105,6 +103,7 @@ export const createLike = (likeForm) => (dispatch) => {
 
 export const deleteLike = (likeForm) => (dispatch) => {
   const likeType = likeForm.type;
+  const like = likeForm.user.likes.find((tempLike) => tempLike[likeType] === likeForm.objectID);
 
   const token = localStorage.getItem("token");
   let headers = {};
@@ -116,7 +115,7 @@ export const deleteLike = (likeForm) => (dispatch) => {
     };
   }
   axios
-    .delete(`${process.env.REACT_APP_DJANGO_BACKEND}api/blog/likes/${likeForm.likeID}/`, headers)
+    .delete(`${process.env.REACT_APP_DJANGO_BACKEND}api/blog/likes/${like.id}/`, headers)
     .then((response) => {
       dispatch({ type: "LIKE_DELETE_SUCCESS", payload: response.data });
       dispatch(setMessage("success", `Successfully unliked ${likeType}.`));

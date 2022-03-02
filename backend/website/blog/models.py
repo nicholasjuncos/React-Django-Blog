@@ -48,6 +48,10 @@ class Post(TimeStampedModel, StatusModel):
         return str(self.text1) + str(self.text2)
 
     @property
+    def user(self):
+        return self.author
+
+    @property
     def active(self):
         if self.status == 'P' and datetime.date.today() <= self.post_date:
             return True

@@ -54,6 +54,18 @@ class User(AbstractUser):
         return self.post_set.filter(status="P", post_date__lte=today).order_by("-post_date")
 
     @property
+    def articles_liked(self):
+        return self.likes.exclude(article=None).values_list('article', flat=True)
+
+    @property
+    def comments_liked(self):
+        return self.likes.exclude(comment=None).values_list('comment', flat=True)
+
+    @property
+    def replies_liked(self):
+        return self.likes.exclude(reply=None).values_list('reply', flat=True)
+
+    @property
     def full_name(self):
         return (self.first_name + ' ' + self.last_name).strip()
 

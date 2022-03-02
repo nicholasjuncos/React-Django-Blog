@@ -8,7 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'author', 'status', 'get_status_display', 'post_date', 'title', 'title_sub_text', 'subtitle1', 'text1', 'subtitle2', 'text2', 'cover_image', 'image1', 'image2', 'image3', 'url']
+        fields = ['id', 'author', 'user', 'status', 'get_status_display', 'post_date', 'title', 'title_sub_text', 'subtitle1', 'text1', 'subtitle2', 'text2', 'cover_image', 'image1', 'image2', 'image3', 'url']
         extra_kwargs = {
             'url': {'view_name': 'api:post-detail', 'lookup_field': 'id'}
         }
@@ -16,6 +16,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class PostSerializerReadOnly(PostSerializer):
     author = UserSerializer()
+    user = UserSerializer()
 
 
 class LikeSerializer(serializers.ModelSerializer):
