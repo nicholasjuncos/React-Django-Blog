@@ -62,6 +62,9 @@ def make_request(request_type, route, data=None):
         return None
 
 
+def health_check(request):
+    return Response(status=status.HTTP_200_OK)
+
 urlpatterns = [
                   # path('', TemplateView.as_view(template_name='home.html'), name='home'),
                   path('admin/', admin.site.urls),
@@ -71,6 +74,7 @@ urlpatterns = [
                   path('api/auth-token/', obtain_auth_token, name='obtain-auth-token'),
                   path('api/auth/', include('dj_rest_auth.urls')),
                   path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
+                  path('api/health-check/', health_check),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
