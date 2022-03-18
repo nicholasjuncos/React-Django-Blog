@@ -1,16 +1,27 @@
 ##!/bin/bash
 #sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable -y
-#
+
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update -y
+sudo apt-get install python3.9 -y
+
+sudo apt install postgresql -y
+sudo apt install nginx -y
+sudo apt install supervisor -y
+sudo apt install python3-pip -y
+sudo apt install python3.9-distutils -y
+sudo apt install virtualenv -y
+
+sudo curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt install nodejs -y
+
+
 #sudo apt install gcc -y
-#sudo apt install postgresql -y
 #sudo apt install libffi-dev -y
 #sudo apt install curl -y
 #sudo apt install git -y
-#sudo apt install nginx -y
-#sudo apt install supervisor -y
 #sudo apt install build-essential -y
 #sudo apt install python3-dev -y
-#sudo apt install python3-pip -y
 #sudo apt install python3-setuptools -y
 #sudo apt install python3-wheel -y
 #sudo apt install python3-cffi -y
@@ -34,8 +45,9 @@
 #sudo apt install libgeos-dev -y
 #sudo apt install libcurl3 -y
 #sudo apt install cython -y
-#sudo apt install virtualenv -y
 #sudo apt install graphviz -y
-## This does the same thing as sudo apt upgrade -y except it will NOT have any popup grubs.
-#sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade
-#sudo apt autoremove -y
+
+sudo apt update -y
+sudo apt upgrade -y
+
+sudo apt autoremove -y
