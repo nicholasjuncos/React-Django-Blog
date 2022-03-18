@@ -27,3 +27,4 @@ sudo chmod -R 777 /home/ubuntu/website/backend/staticfiles
 ./manage.py collectstatic
 
 cd /home/ubuntu/website/frontend
+npm install
