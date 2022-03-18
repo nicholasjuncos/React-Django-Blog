@@ -7,6 +7,7 @@ sudo chown -R ubuntu /home/ubuntu/website/frontend/.env
 echo $'REACT_APP_DJANGO_BACKEND = \"https://regis-blog-me.com/\"\nNODE_ENV = production' > /home/ubuntu/website/frontend/.env
 
 sudo mkdir /var/log/gunicorn
+sudo mkdir /var/log/react
 sudo mkdir /home/ubuntu/.aws
 sudo rm /etc/nginx/sites-enabled/default
 sudo mv /home/ubuntu/website/scripts/files/nginx.conf /etc/nginx/nginx.conf
