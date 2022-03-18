@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-sudo cp /home/ubuntu/environment /home/ubuntu/website/.env
-sudo chown -R ubuntu /home/ubuntu/website/.env
+sudo cp /home/ubuntu/environment /home/ubuntu/website/backend/.env
+sudo chown -R ubuntu /home/ubuntu/website/backend/.env
+
+sudo touch /home/ubuntu/website/frontend/.env
+sudo chown -R ubuntu /home/ubuntu/website/frontend/.env
+echo $'REACT_APP_DJANGO_BACKEND = \"https://regis-blog-me.com/\"\nNODE_ENV = production' > /home/ubuntu/website/frontend/.env
+
 sudo mkdir /var/log/gunicorn
 sudo mkdir /home/ubuntu/.aws
 sudo rm /etc/nginx/sites-enabled/default
