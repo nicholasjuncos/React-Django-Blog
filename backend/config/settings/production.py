@@ -58,16 +58,16 @@ SECURE_CONTENT_TYPE_NOSNIFF = env(
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
-TEMPLATES[-1]['OPTIONS']['loaders'] = \
-    [
-        (
-            'django.template.loaders.cached.Loader',
-            [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
-            ],
-        )
-    ]
+# TEMPLATES[-1]['OPTIONS']['loaders'] = \
+#     [
+#         (
+#             'django.template.loaders.cached.Loader',
+#             [
+#                 'django.template.loaders.filesystem.Loader',
+#                 'django.template.loaders.app_directories.Loader',
+#             ],
+#         )
+#     ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env('SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
