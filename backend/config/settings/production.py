@@ -75,7 +75,7 @@ SERVER_EMAIL = env('SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
-ADMIN_URL = env('ADMIN_URL')
+ADMIN_URL = env('ADMIN_URL', default='admin/')
 
 
 # STORAGE CONFIGURATION
@@ -92,7 +92,7 @@ AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = True
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_REGION_NAME = 'us-east-1'
 
 # AWS cache settings, don't change unless you know what you're doing:
 AWS_EXPIRY = 60 * 60 * 24 * 7
@@ -188,7 +188,7 @@ EMAIL_USE_TLS = True
 
 # Sentry Configuration
 # TODO: Update the env variable for DJANGO_SENTRY_DSN for production
-SENTRY_DSN = env('DJANGO_SENTRY_DSN')
+SENTRY_DSN = env('DJANGO_SENTRY_DSN', default='')
 # SENTRY_DSN = "https://243486832c6a43158fe4b4f5700ece19@o109504.ingest.sentry.io/240936"
 # sentry_sdk.init(
 #     dsn=SENTRY_DSN,
