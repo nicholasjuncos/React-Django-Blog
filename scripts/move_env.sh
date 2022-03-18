@@ -28,3 +28,5 @@ sudo chmod -R 777 /home/ubuntu/website/backend/staticfiles
 
 cd /home/ubuntu/website/frontend
 npm install
+
+cd /home/ubuntu/website
